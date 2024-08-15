@@ -1,0 +1,29 @@
+﻿@using LibraryBookLoaningSystem.ViewModels;
+@model LibraryBookLoaningSystem.Models.Books;
+@{
+    ViewData["Title"] = "Book Details";
+}
+
+<h1>Book Details</h1>
+<hr />
+<div>
+<dl>
+    <dt class="row">
+    <dt class="col-2">@Html.DisplayNameFor(model => model.BookTitle)</dt>
+    <dd class="col-10">@Html.DisplayFor(model => model.BookTitle)</dd>
+    <dt class="col-2">@Html.DisplayNameFor(model => model.BookDescription)</dt>
+    <dd class="col-10">@Html.DisplayFor(model => model.BookDescription)</dd>
+    <dt class="col-2">@Html.DisplayNameFor(model => model.BookAuthor)</dt>
+    <dd class="col-10">@Html.DisplayFor(model => model.BookAuthor)</dd>
+    <dt class="col-2">@Html.DisplayNameFor(model => model.BookCopies)</dt>
+    <dd class="col-10">@Html.DisplayFor(model => model.BookCopies)</dd>
+    <dt class="col-2">@Html.DisplayNameFor(model => model.DateAdded)</dt>
+    <dd class="col-10">@Html.DisplayFor(model => model.DateAdded)</dd>
+    <dt class="col-2">@Html.DisplayNameFor(model => model.Status)</dt>
+    <dd class="col-10">@Html.DisplayFor(model => model.Status)</dd>
+    </dt>
+</dl>
+    </div>
+<div>
+    <a asp-controller="Book" asp-action="Index" class="btn btn-danger">Back</a>
+</div>

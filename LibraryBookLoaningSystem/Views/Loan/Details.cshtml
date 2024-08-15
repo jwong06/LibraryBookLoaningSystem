@@ -1,0 +1,42 @@
+﻿@using LibraryBookLoaningSystem.ViewModels;
+@model LibraryBookLoaningSystem.Models.Books;
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<LibraryBookLoaningSystem.IdentityModels.Users> userManager
+
+@{
+    ViewData["Title"] = "Book Details";
+    var user = userManager.GetUserId(User);
+}
+
+<h1>Book Details</h1>
+<hr />
+<div>
+    <form method="post">
+        <dl>
+            <dt class="row">
+            <dt class="col-2">@Html.DisplayNameFor(model => model.BookTitle)</dt>
+            <dd class="col-10">@Html.DisplayFor(model => model.BookTitle)</dd>
+            <dt class="col-2">@Html.DisplayNameFor(model => model.BookDescription)</dt>
+            <dd class="col-10">@Html.DisplayFor(model => model.BookDescription)</dd>
+            <dt class="col-2">@Html.DisplayNameFor(model => model.BookAuthor)</dt>
+            <dd class="col-10">@Html.DisplayFor(model => model.BookAuthor)</dd>
+            </dt>
+        </dl>
+        <div class="form-group mt-2">
+            <a asp-controller="Loan" asp-action="LoanableBooks" class="btn btn-danger">Back</a>
+            @{
+                if (ViewBag.DisplayLoanBtn == true)
+                {
+                    <input type="submit" value="Loan" asp-route-userId="@user" asp-route-bookId="@ViewBag.BookId" class="btn btn-primary" />
+                }
+                if (ViewBag.DisplayReturnBtn == true)
+                {
+                    //@Html.ActionLink("Return", "ReturnReceived", new { tranId = item.TranId }, new { @class = "btn btn-primary" })
+                    <input type="submit" value="Return" asp-action="Return" asp-route-userId="@user" asp-route-bookId="@ViewBag.BookId" class="btn btn-primary" />
+                }
+
+            }
+        </div>
+
+    </form>
+</div>

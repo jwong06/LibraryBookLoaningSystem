@@ -1,0 +1,35 @@
+﻿@using LibraryBookLoaningSystem.ViewModels;
+@model IEnumerable<LibraryBookLoaningSystem.Models.Books>;
+@{
+    ViewData["Title"] = "Books";
+}
+
+<h1>Books list</h1>
+<hr />
+<a asp-controller="Book" asp-action="Create" class="btn btn-success float-end">Create</a>
+<table class="table table-responsive table-striped table-hover align-middle">
+    <thead>
+        <tr class="text-center">
+            <th>@Html.DisplayNameFor(model => model.BookTitle)</th>
+            <th>@Html.DisplayNameFor(model => model.BookDescription)</th>
+            <th>@Html.DisplayNameFor(model => model.BookAuthor)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr class="text-center">
+                <td>@Html.DisplayFor(model => book.BookTitle)</td>
+                <td>@Html.DisplayFor(model => book.BookDescription)</td>
+                <td>@Html.DisplayFor(model => book.BookAuthor)</td>
+
+                <td>
+                    <a asp-controller="Book" asp-action="Edit" asp-route-bookId="@book.BookId" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Book" asp-action="Details" asp-route-bookId="@book.BookId" class="btn btn-success">Details</a>
+                    <a asp-controller="Book" asp-action="DeletePage" asp-route-bookId="@book.BookId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

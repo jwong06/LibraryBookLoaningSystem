@@ -1,0 +1,34 @@
+﻿@using LibraryBookLoaningSystem.ViewModels;
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<LibraryBookLoaningSystem.Models.Books>;
+@inject UserManager<LibraryBookLoaningSystem.IdentityModels.Users> userManager
+@{
+    ViewData["Title"] = "All available books";
+    var user = userManager.GetUserId(User);
+}
+
+<h1>Available books</h1>
+<hr />
+<table class="table table-responsive table-striped table-hover align-middle">
+    <thead>
+        <tr class="text-center">
+            <th>@Html.DisplayNameFor(model => model.BookTitle)</th>
+            <th>@Html.DisplayNameFor(model => model.BookDescription)</th>
+            <th>@Html.DisplayNameFor(model => model.BookAuthor)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr class="text-center">
+                <td>@Html.DisplayFor(model => book.BookTitle)</td>
+                <td>@Html.DisplayFor(model => book.BookDescription)</td>
+                <td>@Html.DisplayFor(model => book.BookAuthor)</td>
+                <td>
+                    <a asp-controller="Loan" asp-action="Details" asp-route-bookId="@book.BookId" class="btn btn-success">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

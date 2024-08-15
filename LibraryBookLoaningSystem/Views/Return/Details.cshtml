@@ -1,0 +1,37 @@
+﻿@using LibraryBookLoaningSystem.ViewModels;
+@model LibraryBookLoaningSystem.ViewModels.ReturnViewModel;
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<LibraryBookLoaningSystem.IdentityModels.Users> userManager
+
+@{
+    ViewData["Title"] = "Book Details";
+    var user = userManager.GetUserId(User);
+    var transInfo = ViewBag.TransInfo as IEnumerable<Transactions>;
+}
+
+<h1>Book Details</h1>
+<hr />
+<div>
+    <form method="post">
+        <dl>
+            <dt class="row">
+            <dt class="col-2">@Html.DisplayNameFor(model => model.Books.BookTitle)</dt>
+            <dd class="col-10">@Html.DisplayFor(model => model.Books.BookTitle)</dd>
+            <dt class="col-2">@Html.DisplayNameFor(model => model.Books.BookDescription)</dt>
+            <dd class="col-10">@Html.DisplayFor(model => model.Books.BookDescription)</dd>
+            <dt class="col-2">@Html.DisplayNameFor(model => model.Books.BookAuthor)</dt>
+            <dd class="col-10">@Html.DisplayFor(model => model.Books.BookAuthor)</dd>
+            <dt class="col-2">@Html.DisplayNameFor(model => model.Transactions.TransactionDate)</dt>
+            <dd class="col-10">@Html.DisplayFor(model => model.Transactions.TransactionDate)</dd>
+            <dt class="col-2">@Html.DisplayNameFor(model => model.Transactions.ReturnByDate)</dt>
+            <dd class="col-10">@Html.DisplayFor(model => model.Transactions.ReturnByDate)</dd>
+            </dt>
+        </dl>
+        <div class="form-group mt-2">
+            <a asp-controller="Return" asp-action="Index" class="btn btn-primary">Back</a>
+            <input type="submit" value="Return" asp-route-bookId="@ViewBag.BookId" asp-route-userId="@user" asp-route-transId="@Model.Transactions.TransactionId" class="btn btn-danger" />
+            @* <a asp-controller="Return" asp-action="Details" class="btn btn-danger">Return</a> *@
+        </div>
+
+    </form>
+</div>
