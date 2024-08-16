@@ -5,7 +5,7 @@
       "secretStore": "LocalSecretsFile",
       "resourceId": null,
       "type": "mssql.local",
-      "connectionId": "ConnectionStrings:IdentityConnection"
+      "connectionId": "ConnectionStrings:DefaultConnection"
     }
   }
 }

@@ -78,7 +78,7 @@ namespace LibraryBookLoaningSystem.Controllers
             }
         }
         [Authorize]
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> Edit(Books model)
         {
             if (!ModelState.IsValid)

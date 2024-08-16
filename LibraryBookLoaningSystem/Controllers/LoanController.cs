@@ -157,7 +157,7 @@ namespace LibraryBookLoaningSystem.Controllers
             }
         }
         [Authorize]
-        [HttpPut]
+        [HttpPost]
         //Return a book
         public IActionResult Return(int bookId, string userId)
         {

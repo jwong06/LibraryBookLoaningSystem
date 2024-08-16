@@ -110,7 +110,7 @@ namespace LibraryBookLoaningSystem.Controllers
                     db.Transactions.Update(model);
                     db.Books.Update(book);
                     await db.SaveChangesAsync();
-                    return RedirectToAction("Index", "Return");
+                    return RedirectToAction("Index", "Return", new { @userId = userId });
                 }
             }
         }
