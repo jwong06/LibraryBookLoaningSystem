@@ -2,6 +2,7 @@
 using LibraryBookLoaningSystem.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 
 namespace LibraryBookLoaningSystem.Controllers
 {
@@ -10,7 +11,7 @@ namespace LibraryBookLoaningSystem.Controllers
         private readonly SignInManager<Users> signInManager;
         private readonly UserManager<Users> userManager;
         private readonly ILogger<Users> _logger;
-
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager, ILogger<Users> logger)
         {
             this.signInManager = signInManager;
@@ -32,7 +33,8 @@ namespace LibraryBookLoaningSystem.Controllers
 
                 if (result.Succeeded)
                 {
-                    _logger.LogError("{username} successfully logged in on {date}.", model.Email, DateTime.Now);
+                    logger.Info("{username} successfully logged in on {date}.(NLog)", model.Email, DateTime.Now);
+                    _logger.LogInformation("{username} successfully logged in on {date}.", model.Email, DateTime.Now);
                     return RedirectToAction("Index", "Home");
                 }
                 if (result.IsLockedOut)
@@ -42,6 +44,7 @@ namespace LibraryBookLoaningSystem.Controllers
                     //var message = new Message(new string[] { userModel.Email }, "Locked out account information", content, null);
                     //await _emailSender.SendEmailAsync(message);
                     ModelState.AddModelError("", "The account is locked out.");
+                    logger.Warn("{username} is locked out.(NLog)", model.Email);
                     _logger.LogError("{username} is locked out.", model.Email);
 
                     return View();
@@ -49,6 +52,7 @@ namespace LibraryBookLoaningSystem.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Email or password is incorrect.");
+                    logger.Warn("Invalid login attempt from {username} on {date}.(NLog)", model.Email, DateTime.Now);
                     _logger.LogError("Invalid login attempt from {username} on {date}.", model.Email, DateTime.Now);
                     return View(model);
                 }
