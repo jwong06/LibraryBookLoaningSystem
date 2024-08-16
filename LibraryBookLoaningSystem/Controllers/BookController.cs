@@ -1,4 +1,5 @@
 ﻿using LibraryBookLoaningSystem.Data;
+using LibraryBookLoaningSystem.Helpers;
 using LibraryBookLoaningSystem.IdentityModels;
 using LibraryBookLoaningSystem.Models;
 using LibraryBookLoaningSystem.ViewModels;
@@ -16,11 +17,13 @@ namespace LibraryBookLoaningSystem.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly ILogger<Books> _logger;
+        //private readonly PdfService _pdfService;
 
-        public BookController(ApplicationDbContext db, ILogger<Books> logger)
+        public BookController(ApplicationDbContext db, ILogger<Books> logger /*PdfService pdfService*/)
         {
             this.db = db;
             _logger = logger;
+            //_pdfService = pdfService;
         }
         [Authorize]
         public ViewResult Index()
@@ -143,7 +146,11 @@ namespace LibraryBookLoaningSystem.Controllers
                 return RedirectToAction("Index", "Book");
             }
         }
-
+        //public async Task<ActionResult> DownloadAsPdfAsync()
+        //{
+        //    var file = await _pdfService.GetBooksAsPdf();
+        //    return File(file.FileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", file.FileName);
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -4,6 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NLog.Extensions.Logging;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using Abp.Dependency;
+using LibraryBookLoaningSystem.Helpers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,7 +45,12 @@ builder.Services.AddLogging(logging =>
     logging.ClearProviders();
     logging.SetMinimumLevel(LogLevel.Trace);
 });
-//builder.Services.AddSingleton<ILoggerProvider, NLogLoggerProvider>();
+var wkHtmlToPdfPath = Path.Combine(Directory.GetCurrentDirectory(), $"wkhtmltox\\v0.12.4\\64 bit\\libwkhtmltox.dll");
+CustomAssemblyLoadContext context = new CustomAssemblyLoadContext();
+context.LoadUnmanagedLibrary(wkHtmlToPdfPath);
+
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+//builder.Services.Add(IConverter, PdfTools);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
