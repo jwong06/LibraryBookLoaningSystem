@@ -3,6 +3,8 @@ using LibraryBookLoaningSystem.IdentityModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NLog.Extensions.Logging;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +36,12 @@ builder.Services.AddIdentity<Users, IdentityRole>(options => {
 })  .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.SetMinimumLevel(LogLevel.Trace);
+});
+//builder.Services.AddSingleton<ILoggerProvider, NLogLoggerProvider>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
