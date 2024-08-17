@@ -74,6 +74,7 @@ namespace LibraryBookLoaningSystem.Controllers
                 model.BookDescription = book.BookDescription;
                 model.BookAuthor = book.BookAuthor;
                 model.BookCopies = book.BookCopies;
+                model.Status = book.Status;
                 return View(model);
             }
         }
@@ -84,6 +85,11 @@ namespace LibraryBookLoaningSystem.Controllers
             if (!ModelState.IsValid)
             {
                 return View();
+            }
+            if (model.Status == true && model.BookCopies < 1 )
+            {
+                ModelState.AddModelError("", "Book cannot be enabled with less than 1 copy available.");
+                return View(model);
             }
             db.Books.Update(model);
             await db.SaveChangesAsync();

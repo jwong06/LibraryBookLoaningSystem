@@ -7,6 +7,8 @@ using LibraryBookLoaningSystem.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using Castle.Components.DictionaryAdapter.Xml;
 
 namespace LibraryBookLoaningSystem.Controllers
 {
@@ -32,18 +34,21 @@ namespace LibraryBookLoaningSystem.Controllers
             var transactionsToCompare = db.Transactions.Where(t => t.UserId == userId && t.TransactionReturnStatus == false);
             List<Transactions> transactionsInfo = new List<Transactions>();
 
+            //var test = allReturnableBooks.Concat(transactionsToCompare);
+
             List<Books> books = new List<Books>();
             foreach (var book in allReturnableBooks)
             {
                 foreach (var trans in transactionsToCompare)
                 {
-                    if(book.BookId == trans.BookId)
+                    if (book.BookId == trans.BookId)
                     {
                         books.Add(book);
                         transactionsInfo.Add(trans);
                     }
                 }
             }
+            books = books.GroupBy(x => x.BookId).Select(y => y.First()).ToList();
             ViewBag.TransInfo = transactionsInfo;
 
             return View(books);
@@ -86,7 +91,7 @@ namespace LibraryBookLoaningSystem.Controllers
 
             if (book == null || user == null)
             {
-                return RedirectToAction("Index", "Return");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -110,9 +115,14 @@ namespace LibraryBookLoaningSystem.Controllers
                     db.Transactions.Update(model);
                     db.Books.Update(book);
                     await db.SaveChangesAsync();
-                    return RedirectToAction("Index", "Return", new { @userId = userId });
+                    return RedirectToAction("ReturnSuccessful", "Return", new { @userId = userId });
                 }
             }
         }
+        public IActionResult ReturnSuccessful(string userId)
+        {
+            return View();
+        }
+
     }
 }

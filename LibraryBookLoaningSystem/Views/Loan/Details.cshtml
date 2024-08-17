@@ -23,18 +23,12 @@
             </dt>
         </dl>
         <div class="form-group mt-2">
-            <a asp-controller="Loan" asp-action="LoanableBooks" class="btn btn-danger">Back</a>
+            <a asp-controller="Loan" asp-action="Index" class="btn btn-danger">Back</a>
             @{
                 if (ViewBag.DisplayLoanBtn == true)
                 {
                     <input type="submit" value="Loan" asp-route-userId="@user" asp-route-bookId="@ViewBag.BookId" class="btn btn-primary" />
                 }
-                if (ViewBag.DisplayReturnBtn == true)
-                {
-                    //@Html.ActionLink("Return", "ReturnReceived", new { tranId = item.TranId }, new { @class = "btn btn-primary" })
-                    <input type="submit" value="Return" asp-action="Return" asp-route-userId="@user" asp-route-bookId="@ViewBag.BookId" class="btn btn-primary" />
-                }
-
             }
         </div>
 

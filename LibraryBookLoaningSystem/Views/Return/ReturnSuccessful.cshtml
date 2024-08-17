@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<LibraryBookLoaningSystem.IdentityModels.Users> userManager
+
+@{
+    ViewData["Title"] = "Return Successful";
+    var user = userManager.GetUserId(User);
+
+}
+
+<div class="text-center">
+    <h1>You book was successfully returned!</h1>
+    <p>Thank you for loaning a book with us.</p>
+
+    <a asp-controller="Return" asp-action="Index" asp-route-userId="@user" class="btn btn-danger">Back</a>
+
+</div>

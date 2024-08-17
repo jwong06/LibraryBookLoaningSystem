@@ -16,8 +16,6 @@
             <th>@Html.DisplayNameFor(model => model.BookTitle)</th>
             <th>@Html.DisplayNameFor(model => model.BookDescription)</th>
             <th>@Html.DisplayNameFor(model => model.BookAuthor)</th>
-            <th>Loan Date</th>
-            <th>Return By Date</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -28,20 +26,12 @@
                 <td>@Html.DisplayFor(model => book.BookTitle)</td>
                 <td>@Html.DisplayFor(model => book.BookDescription)</td>
                 <td>@Html.DisplayFor(model => book.BookAuthor)</td>
-                @foreach (var trans in transInfo)
-                {
-                    if (trans.BookId == book.BookId)
-                    {
-                        <td>@trans.TransactionDate.ToLongDateString()</td>
-                        <td>@trans.ReturnByDate.ToLongDateString()</td>
-                    }
-                }
                 <td>
                     @foreach (var trans in transInfo)
                     {
                         if (trans.BookId == book.BookId)
                         {
-                            <a asp-controller="Return" asp-action="Details" asp-route-bookId="@book.BookId" asp-route-transId="@trans.TransactionId" asp-route-userId="@user" class="btn btn-success">Details</a>
+                            <a asp-controller="Return" asp-action="Details" asp-route-bookId="@book.BookId" asp-route-transId="@trans.TransactionId" asp-route-userId="@user" class="btn btn-success">Return Details</a>
                         }
                     }
                 </td>

@@ -83,28 +83,28 @@ namespace LibraryBookLoaningSystem.Controllers
         }*/
         [Authorize]
         [HttpGet]
-        public IActionResult Details(int bookId)
+        public IActionResult Details(string userId, int bookId)
         {
-            var BookTransactionReturned = db.Transactions.Where(t => t.UserId == userId && t.BookId == bookId && t.TransactionReturnStatus == true).Select(x => x.BookId);
-            var BookTransactionNotReturned = db.Transactions.Where(t => t.UserId == userId && t.BookId == bookId && t.TransactionReturnStatus != true).Select(x => x.BookId);
-            bool displayLoanBtn = false;
-            bool displayReturnBtn = false;
-            if (BookTransactionReturned.Contains(bookId) || !BookTransactionNotReturned.Contains(bookId))
+            var user = userManager.FindByIdAsync(userId);
+            //bool BookTransactionReturned = db.Transactions.Any(t => t.UserId == userId && t.BookId == bookId && t.TransactionReturnStatus == true);
+            //bool BookTransactionExists = db.Transactions.Count(t => t.UserId == userId && t.BookId == bookId) > 0;
+            //bool BookTransactionNotReturned = db.Transactions.Any(t => t.UserId == userId && t.BookId == bookId && t.TransactionReturnStatus != true);
+            bool displayLoanBtn = true;
+            /*if (BookTransactionReturned == true || BookTransactionExists == false)
             {
                 displayLoanBtn = true;
             }
-            else if (BookTransactionNotReturned.Contains(bookId))
+            else if (BookTransactionNotReturned == true)
             {
-                displayReturnBtn = true;
-            }
+                displayLoanBtn = false;
+            }*/
             ViewBag.BookId = bookId;
             ViewBag.DisplayLoanBtn = displayLoanBtn;
-            ViewBag.DisplayReturnBtn = displayReturnBtn;
 
             var book = db.Books.FirstOrDefault(b => b.BookId == bookId);
             if (book == null)
             {
-                return RedirectToAction("LoanableBooks", "Loan");
+                return RedirectToAction("Index", "Loan");
             }
             else
             {
@@ -127,7 +127,7 @@ namespace LibraryBookLoaningSystem.Controllers
 
             if (book == null || user == null)
             {
-                return RedirectToAction("LoanableBooks", "Loan");
+                return RedirectToAction("Index", "Loan");
             }
             else
             {
@@ -156,38 +156,38 @@ namespace LibraryBookLoaningSystem.Controllers
                 }
             }
         }
-        [Authorize]
-        [HttpPost]
-        //Return a book
-        public IActionResult Return(int bookId, string userId)
-        {
-            var book = db.Books.FirstOrDefault(b => b.BookId == bookId);
-            var user = userManager.FindByIdAsync(userId);
-            var trans = db.Transactions.FirstOrDefault(t => t.BookId == book.BookId && t.UserId == userId && t.TransactionReturnStatus != true);
+        //[Authorize]
+        //[HttpPost]
+        ////Return a book
+        //public IActionResult Return(int bookId, string userId)
+        //{
+        //    var book = db.Books.FirstOrDefault(b => b.BookId == bookId);
+        //    var user = userManager.FindByIdAsync(userId);
+        //    var trans = db.Transactions.FirstOrDefault(t => t.BookId == book.BookId && t.UserId == userId && t.TransactionReturnStatus != true);
 
-            if (book == null || user == null)
-            {
-                return new StatusCodeResult(400);
-            }
+        //    if (book == null || user == null)
+        //    {
+        //        return new StatusCodeResult(400);
+        //    }
 
-            if (trans == null)
-            {
-                return new StatusCodeResult(404);
-            }
-            else
-            {
-                trans.TransactionReturnStatus = true;
-                trans.TransactionDate = DateTime.Now;
-                book.BookCopies++;
-                if (book.BookCopies > 0)
-                {  
-                    book.Status = true; 
-                }
-                db.Transactions.Update(trans);
-                db.Books.Update(book);
-            }
-            return RedirectToAction("Index", "Loan");
-        }
+        //    if (trans == null)
+        //    {
+        //        return new StatusCodeResult(404);
+        //    }
+        //    else
+        //    {
+        //        trans.TransactionReturnStatus = true;
+        //        trans.TransactionDate = DateTime.Now;
+        //        book.BookCopies++;
+        //        if (book.BookCopies > 0)
+        //        {  
+        //            book.Status = true; 
+        //        }
+        //        db.Transactions.Update(trans);
+        //        db.Books.Update(book);
+        //    }
+        //    return RedirectToAction("Index", "Loan");
+        //}
 
     }
 }

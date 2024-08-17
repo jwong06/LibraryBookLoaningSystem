@@ -28,7 +28,7 @@
             </dt>
         </dl>
         <div class="form-group mt-2">
-            <a asp-controller="Return" asp-action="Index" class="btn btn-primary">Back</a>
+            <a asp-controller="Return" asp-action="Index" asp-route-userId="@user" class="btn btn-primary">Back</a>
             <input type="submit" value="Return" asp-route-bookId="@ViewBag.BookId" asp-route-userId="@user" asp-route-transId="@Model.Transactions.TransactionId" class="btn btn-danger" />
             @* <a asp-controller="Return" asp-action="Details" class="btn btn-danger">Return</a> *@
         </div>
